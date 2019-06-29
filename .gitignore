@@ -1,0 +1,10 @@
+node_modules/
+app/
+nodetello/
+reactapp/
+tello-nodejs/
+webrtc/
+build/
+.cache/
+.next/
+.DS_store
