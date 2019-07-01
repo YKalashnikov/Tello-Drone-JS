@@ -7,7 +7,6 @@ const throttle = require('lodash/throttle');
 const commandDelays = require("./commandDelays");
 
 
-
 const PORT = 8889;
 const HOST = "192.168.10.1";
 
@@ -18,11 +17,18 @@ const serverState = dgram.createSocket("udp4");
 serverState.bind(8890);
 
 function parseState(state) {
-  return state.split(';').map(item => item.split(':'));
+  return state
+    .split(';')
+    .map(item => item.split(':'))
+    .reduce((data, [key, value]) => {
+      data[key] = value;
+      return data;
+    }, {});
 }
 
 server.on("message", message => {
   console.log(`👽: ${message}`);
+  io.sockets.emit('status', message.toString())
 });
 
 /* serverState.on("message", state => {
@@ -43,7 +49,7 @@ function handleError(err) {
 server.send('battery?', 0, 8, PORT, HOST, handleError); */
 
 const commands = ['command', 'battery?', 'takeoff', 'land'];
-//const commands = ["command", "battery?"];
+
 let i = 0;
 server.send('command', 0, 'command'.length, PORT, HOST, handleError);
 /* async function start() {
@@ -68,7 +74,7 @@ io.on('connection', socket=> {
      console.log(command)
      server.send(command, 0, command.length, PORT, HOST, handleError)
    });
- 
+   socket.emit('status', 'CONNECTED');
 
    const throttledEmit = throttle(socket.emit, 300);
 
@@ -77,7 +83,7 @@ io.on('connection', socket=> {
      socket.emit('droneState', formattedState)
    }, 100)
   );
-  socket.emit('status', 'CONNECTED');
+
 });
 http.listen(6767, () => {
   console.log('Socket io server up and running')
