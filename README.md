@@ -1,8 +1,8 @@
 # Tello-Drone-JS
-Tello Drone Java Script 
+Tello Drone Java Script inspired by WESBOSS
 
 
-![](https://github.com/YKalashnikov/Tello-Drone-JS/blob/master/Tello%20SDK%20Documentation%20EN_1.3.pdf)
+![](https://github.com/YKalashnikov/Tello-Drone-JS/blob/master/screenShot.png)
 
 ### Using
 - ReactHooks
